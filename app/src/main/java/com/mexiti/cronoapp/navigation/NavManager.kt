@@ -9,28 +9,43 @@ import androidx.navigation.navArgument
 import com.mexiti.cronoapp.ui.views.AddView
 import com.mexiti.cronoapp.ui.views.EditView
 import com.mexiti.cronoapp.ui.views.HomeView
+import com.mexiti.cronoapp.ui.views.ProfileView
+import com.mexiti.cronoapp.viewmodel.AppDataViewModel
 import com.mexiti.cronoapp.viewmodel.CronometroViewModel
-import com.mexiti.cronoapp.viewmodel.DataViewModel
 
 @Composable
-fun NavManager(cronometroVM:CronometroViewModel,dataVM:DataViewModel ) {
+fun NavManager(cronometroVM: CronometroViewModel, dataVM: AppDataViewModel) {
     val navController = rememberNavController()
+
     NavHost(navController = navController, startDestination = "Home") {
+
         composable("Home") {
-            HomeView(navController,dataVM)
+            HomeView(navController, dataVM)
         }
+
         composable("AddView") {
-            AddView(navController,cronometroVM, dataVM)
-        }
-        composable("EditView/{id}",
-            arguments = listOf(
-                navArgument("id"){type = NavType.LongType}
-            )){
-            val id = it.arguments?.getLong("id") ?:0
-            EditView(navController = navController,
-                cronometroVM =cronometroVM , dataVM = dataVM, id =id )
-
+            AddView(navController, cronometroVM, dataVM)
         }
 
+        composable(
+            "EditView/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.LongType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getLong("id") ?: 0L
+            EditView(
+                navController = navController,
+                cronometroVM = cronometroVM,
+                dataVM = dataVM,
+                id = id
+            )
+        }
+
+        // Perfil
+        composable("ProfileView") {
+            ProfileView(
+                dataVM = dataVM,
+                onBack = { navController.popBackStack() }
+            )
+        }
     }
 }

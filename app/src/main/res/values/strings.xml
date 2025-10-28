@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">CronoApp</string>
+    <string name="app_name">ConcertAlerts</string>
     <string name="add_view">Add View</string>
     <string name="edit_cronometro">Edit Cronometro</string>
+    <string name="desayuno">Tyler, The Creator</string>
+    <string name="hamburger">TOTO</string>
+    <string name="pizza">The Weeknd</string>
+    <string name="postre">GUNS N´ ROSES </string>
+    <string name="pozole">EDC </string>
+    <string name="tacos">NSQk </string>
 </resources>

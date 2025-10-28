@@ -33,14 +33,14 @@ import com.mexiti.cronoapp.ui.components.MainIconButton
 import com.mexiti.cronoapp.ui.components.MainTextField
 import com.mexiti.cronoapp.ui.components.MainTitle
 import com.mexiti.cronoapp.ui.components.formatTiempo
+import com.mexiti.cronoapp.viewmodel.AppDataViewModel
 import com.mexiti.cronoapp.viewmodel.CronometroViewModel
-import com.mexiti.cronoapp.viewmodel.DataViewModel
 
 @Composable
 fun ContentAddView(it:PaddingValues,
                    navController: NavController,
                    cronometroVM: CronometroViewModel,
-                   dataVM:DataViewModel
+                   dataVM: AppDataViewModel
                    ){
     val state = cronometroVM.state
     LaunchedEffect(key1 = state.cronometroActivo ){
@@ -120,7 +120,7 @@ fun ContentAddView(it:PaddingValues,
 @Composable
 fun AddView(navController: NavController,
             cronometroVM: CronometroViewModel,
-            dataVM: DataViewModel
+            dataVM: AppDataViewModel
             ){
     Scaffold(
         topBar = {

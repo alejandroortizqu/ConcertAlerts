@@ -33,14 +33,14 @@ import com.mexiti.cronoapp.ui.components.MainIconButton
 import com.mexiti.cronoapp.ui.components.MainTextField
 import com.mexiti.cronoapp.ui.components.MainTitle
 import com.mexiti.cronoapp.ui.components.formatTiempo
+import com.mexiti.cronoapp.viewmodel.AppDataViewModel
 import com.mexiti.cronoapp.viewmodel.CronometroViewModel
-import com.mexiti.cronoapp.viewmodel.DataViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditView(navController: NavController,
              cronometroVM:CronometroViewModel,
-             dataVM:DataViewModel,
+             dataVM: AppDataViewModel,
              id:Long
 ){
     Scaffold(
@@ -70,7 +70,7 @@ fun EditView(navController: NavController,
 fun ContentEditView(it: PaddingValues,
                     navController: NavController,
                     cronometroVM: CronometroViewModel,
-                    dataVM: DataViewModel,
+                    dataVM: AppDataViewModel,
                     id: Long) {
     val state = cronometroVM.state
     LaunchedEffect(key1 = state.cronometroActivo ){

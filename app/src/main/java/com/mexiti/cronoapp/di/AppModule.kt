@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.mexiti.cronoapp.room.CronosDataBase
 import com.mexiti.cronoapp.room.CronosDatabaseDao
+import com.mexiti.cronoapp.room.ProfileDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +32,9 @@ object AppModule{
             .build()
     }
 
+    @Provides
+    @Singleton
+    fun providesProfileDao(db: CronosDataBase): ProfileDao = db.profileDao()
 
 }
 

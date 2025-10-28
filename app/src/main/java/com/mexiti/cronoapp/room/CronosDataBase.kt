@@ -5,7 +5,8 @@ import androidx.room.RoomDatabase
 import com.mexiti.cronoapp.model.Cronos
 
 
-@Database(entities = [Cronos::class], version = 1, exportSchema = false)
+@Database(entities = [Cronos::class, ProfileEntity::class], version = 2, exportSchema = false)
 abstract class CronosDataBase:RoomDatabase() {
     abstract fun cronosDao():CronosDatabaseDao
+    abstract fun profileDao(): ProfileDao
 }
