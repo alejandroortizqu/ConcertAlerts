@@ -2,21 +2,20 @@ package com.mexiti.cronoapp.ui.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.mexiti.cronoapp.ui.components.MainIconButton
+import com.mexiti.cronoapp.ui.components.MainTextField
+import com.mexiti.cronoapp.ui.components.MainTitle
 import com.mexiti.cronoapp.viewmodel.AppDataViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,42 +26,69 @@ fun ProfileView(
 ) {
     val p by dataVM.profile.collectAsState()
 
-    val (nombre, setNombre) = remember(p) { mutableStateOf(p.nombre) }
-    val (ciudad, setCiudad) = remember(p) { mutableStateOf(p.ciudad) }
-    val (sexo, setSexo)     = remember(p) { mutableStateOf(p.sexo) }
-    val (gustos, setGustos) = remember(p) { mutableStateOf(p.gustos) }
+    var nombre by remember(p) { mutableStateOf(p.nombre) }
+    var ciudad by remember(p) { mutableStateOf(p.ciudad) }
+    var sexo by remember(p) { mutableStateOf(p.sexo) }
+    var gustos by remember(p) { mutableStateOf(p.gustos) }
 
     Scaffold(
-        topBar = { CenterAlignedTopAppBar(title = { Text("Perfil de usuario") }) }
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { MainTitle(title = "Perfil de Usuario") },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
+                navigationIcon = {
+                    MainIconButton(icon = Icons.Default.ArrowBack) {
+                        onBack()
+                    }
+                }
+            )
+        }
     ) { pad ->
         Column(
-            modifier = Modifier.padding(pad).padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier = Modifier
+                .padding(pad)
+                .padding(horizontal = 24.dp, vertical = 32.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(18.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            OutlinedTextField(
-                value = nombre, onValueChange = setNombre,
-                label = { Text("Nombre") }, modifier = Modifier.fillMaxWidth()
-            )
-            OutlinedTextField(
-                value = ciudad, onValueChange = setCiudad,
-                label = { Text("Ciudad") }, modifier = Modifier.fillMaxWidth()
-            )
-            OutlinedTextField(
-                value = sexo, onValueChange = setSexo,
-                label = { Text("Sexo") }, modifier = Modifier.fillMaxWidth()
-            )
-            OutlinedTextField(
-                value = gustos, onValueChange = setGustos,
-                label = { Text("Gustos musicales") }, modifier = Modifier.fillMaxWidth()
+            // Título
+            Text(
+                text = "Actualiza tus datos personales",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.primary
             )
 
+            // Campos reutilizando tu estilo
+            MainTextField(value = nombre, onValueChange = { nombre = it }, label = "Nombre")
+            MainTextField(value = ciudad, onValueChange = { ciudad = it }, label = "Ciudad")
+            MainTextField(value = sexo, onValueChange = { sexo = it }, label = "Sexo")
+            MainTextField(value = gustos, onValueChange = { gustos = it }, label = "Gustos musicales")
+
+            // Botón de guardar
             Button(
                 onClick = {
                     dataVM.saveProfile(nombre, ciudad, sexo, gustos)
                     onBack()
                 },
-                modifier = Modifier.fillMaxWidth()
-            ) { Text("Guardar") }
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ),
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier
+                    .padding(top = 12.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = "Guardar Cambios",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
         }
     }
 }

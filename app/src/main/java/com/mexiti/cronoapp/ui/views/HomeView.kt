@@ -9,11 +9,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.mexiti.cronoapp.R
 import com.mexiti.cronoapp.data.DataSource
@@ -21,8 +24,8 @@ import com.mexiti.cronoapp.ui.components.CronCard
 import com.mexiti.cronoapp.ui.components.FloatButton
 import com.mexiti.cronoapp.ui.components.FloatButtonMinus
 import com.mexiti.cronoapp.ui.components.MainTitle
-import com.mexiti.cronoapp.ui.components.formatTiempo
 import com.mexiti.cronoapp.ui.components.PlatilloItem
+import com.mexiti.cronoapp.ui.components.formatTiempo
 import com.mexiti.cronoapp.viewmodel.AppDataViewModel
 import me.saket.swipe.SwipeAction
 import me.saket.swipe.SwipeableActionsBox
@@ -35,27 +38,27 @@ fun HomeView(navController: NavController, dataVM: AppDataViewModel) {
             CenterAlignedTopAppBar(
                 title = { MainTitle(title = stringResource(id = R.string.app_name)) },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         },
         floatingActionButton = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-
-                // FAB de Perfil
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalAlignment = Alignment.End
+            ) {
                 FloatButtonMinus {
                     navController.navigate("ProfileView")
                 }
-
-                // FAB existente
                 FloatButton {
                     navController.navigate("AddView")
                 }
             }
-        }
-
+        },
+        containerColor = MaterialTheme.colorScheme.onPrimary
     ) { paddingValues ->
-        ContentHomeView(paddingValues = paddingValues, navController, dataVM)
+        ContentHomeView(paddingValues, navController, dataVM)
     }
 }
 
@@ -68,15 +71,19 @@ fun ContentHomeView(
     val dataList by dataVM.cronoList.collectAsState()
     val platillos = DataSource().loadPlatillos()
 
-    LazyColumn(modifier = Modifier.padding(paddingValues)) {
-
+    LazyColumn(
+        modifier = Modifier
+            .padding(paddingValues)
+            .padding(horizontal = 12.dp)
+    ) {
         // ========= Sección de Cronómetros =========
         items(dataList) { item ->
             val delete = SwipeAction(
                 icon = rememberVectorPainter(image = Icons.Default.Delete),
-                background = Color.Red,
+                background = MaterialTheme.colorScheme.error,
                 onSwipe = { dataVM.deleteCrono(item) }
             )
+
             SwipeableActionsBox(
                 startActions = listOf(delete),
                 swipeThreshold = 150.dp
@@ -91,13 +98,15 @@ fun ContentHomeView(
         }
 
         // Espacio entre secciones
-        item { Spacer(Modifier.height(24.dp)) }
+        item { Spacer(modifier = Modifier.height(32.dp)) }
 
         // ========= Encabezado de la sección de recomendados =========
         item {
             Text(
                 text = "Recomendados para ti",
-                style = MaterialTheme.typography.titleMedium,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }
@@ -106,11 +115,11 @@ fun ContentHomeView(
         items(platillos) { platillo ->
             PlatilloItem(
                 platillo = platillo,
-                modifier = Modifier.padding(horizontal = 8.dp)
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
             )
         }
 
-        // Espacio inferior para no tapar los FABs
-        item { Spacer(Modifier.height(88.dp)) }
+        // Espacio inferior para los FABs
+        item { Spacer(modifier = Modifier.height(88.dp)) }
     }
 }

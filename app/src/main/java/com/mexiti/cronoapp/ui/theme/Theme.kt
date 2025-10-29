@@ -2,26 +2,20 @@ package com.mexiti.cronoapp.ui.theme
 
 import android.app.Activity
 import android.os.Build
-import android.view.View
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Shapes
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
 
-
-
-private val LightColors = lightColorScheme(
+private val lightScheme = lightColorScheme(
     primary = primaryLight,
     onPrimary = onPrimaryLight,
     primaryContainer = primaryContainerLight,
@@ -50,10 +44,10 @@ private val LightColors = lightColorScheme(
     inverseSurface = inverseSurfaceLight,
     inverseOnSurface = inverseOnSurfaceLight,
     inversePrimary = inversePrimaryLight,
+
 )
 
-
-private val DarkColors = darkColorScheme(
+private val darkScheme = darkColorScheme(
     primary = primaryDark,
     onPrimary = onPrimaryDark,
     primaryContainer = primaryContainerDark,
@@ -68,7 +62,7 @@ private val DarkColors = darkColorScheme(
     onTertiaryContainer = onTertiaryContainerDark,
     error = errorDark,
     onError = onErrorDark,
-    errorContainer = errorContainerDark,
+    errorContainer =errorContainerDark,
     onErrorContainer = onErrorContainerDark,
     background = backgroundDark,
     onBackground = onBackgroundDark,
@@ -83,7 +77,8 @@ private val DarkColors = darkColorScheme(
     inverseOnSurface = inverseOnSurfaceDark,
     inversePrimary = inversePrimaryDark,
 
-    )
+)
+
 private val mediumContrastLightColorScheme = lightColorScheme(
     primary = primaryLightMediumContrast,
     onPrimary = onPrimaryLightMediumContrast,
@@ -113,8 +108,7 @@ private val mediumContrastLightColorScheme = lightColorScheme(
     inverseSurface = inverseSurfaceLightMediumContrast,
     inverseOnSurface = inverseOnSurfaceLightMediumContrast,
     inversePrimary = inversePrimaryLightMediumContrast,
-
-    )
+)
 
 private val highContrastLightColorScheme = lightColorScheme(
     primary = primaryLightHighContrast,
@@ -146,7 +140,7 @@ private val highContrastLightColorScheme = lightColorScheme(
     inverseOnSurface = inverseOnSurfaceLightHighContrast,
     inversePrimary = inversePrimaryLightHighContrast,
 
-    )
+)
 
 private val mediumContrastDarkColorScheme = darkColorScheme(
     primary = primaryDarkMediumContrast,
@@ -178,7 +172,7 @@ private val mediumContrastDarkColorScheme = darkColorScheme(
     inverseOnSurface = inverseOnSurfaceDarkMediumContrast,
     inversePrimary = inversePrimaryDarkMediumContrast,
 
-    )
+)
 
 private val highContrastDarkColorScheme = darkColorScheme(
     primary = primaryDarkHighContrast,
@@ -209,6 +203,7 @@ private val highContrastDarkColorScheme = darkColorScheme(
     inverseSurface = inverseSurfaceDarkHighContrast,
     inverseOnSurface = inverseOnSurfaceDarkHighContrast,
     inversePrimary = inversePrimaryDarkHighContrast,
+
 )
 
 @Immutable
@@ -222,12 +217,13 @@ data class ColorFamily(
 val unspecified_scheme = ColorFamily(
     Color.Unspecified, Color.Unspecified, Color.Unspecified, Color.Unspecified
 )
+
 @Composable
-fun ListaComidaTheme(
+fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
-    content: @Composable () -> Unit
+    content: @Composable() () -> Unit
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -235,42 +231,15 @@ fun ListaComidaTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColors
-        else -> LightColors
-    }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            setUpEdgeToEdge(view,darkTheme)
-        }
+        darkTheme -> darkScheme
+        else -> lightScheme
     }
 
 
     MaterialTheme(
         colorScheme = colorScheme,
-        shapes = Shapes(),
-        typography = Typography,
+        //typography = AppTypography,
         content = content
     )
 }
 
-
-/**
- * Sets up edge-to-edge for the window of this [view]. The system icon colors are set to either
- * light or dark depending on whether the [darkTheme] is enabled or not.
- */
-
-private fun setUpEdgeToEdge(view: View, darkTheme: Boolean){
-    val window = (view.context as Activity).window
-    WindowCompat.setDecorFitsSystemWindows(window,false)
-    window.statusBarColor = when{
-        Build.VERSION.SDK_INT >= 29 -> Color.Transparent.toArgb()
-        Build.VERSION.SDK_INT >= 26 -> Color(0xFF,0xFF,0xFF,0x63).toArgb()
-        // Min sdk version for this app is 24, this block is for SDK versions 24 and 25
-        else -> Color(0x00, 0x00, 0x00, 0x50).toArgb()
-    }
-    //window.navigationBarColor = navigationBarColor
-    val controller = WindowCompat.getInsetsController(window,view)
-    controller.isAppearanceLightStatusBars = !darkTheme
-    controller.isAppearanceLightNavigationBars = !darkTheme
-}

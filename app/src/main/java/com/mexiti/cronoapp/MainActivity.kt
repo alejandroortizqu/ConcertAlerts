@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.mexiti.cronoapp.navigation.NavManager
+import com.mexiti.cronoapp.ui.theme.AppTheme
 import com.mexiti.cronoapp.viewmodel.AppDataViewModel
 import com.mexiti.cronoapp.viewmodel.CronometroViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +18,9 @@ class MainActivity : ComponentActivity() {
         val cronometroVM:CronometroViewModel by viewModels()
         val dataVM: AppDataViewModel by viewModels()
         setContent {
-                NavManager(cronometroVM,dataVM)
+            AppTheme {
+                NavManager(cronometroVM, dataVM)
+            }
         }
     }
 }

@@ -17,110 +17,126 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mexiti.cronoapp.R
 
-/* This file contain components of App that show important information. */
+/* ===========================
+   Common UI Components
+   =========================== */
+
 @Composable
-fun formatTiempo(time:Long):String{
+fun formatTiempo(time: Long): String {
     val segundos = time % 60
-    val minutos = (time/60)%60
-    val horas = time/3600
-    return String.format("%02d:%02d:%02d",horas,minutos, segundos)
+    val minutos = (time / 60) % 60
+    val horas = time / 3600
+    return String.format("%02d:%02d:%02d", horas, minutos, segundos)
 }
 
+/* ---------- Título principal ---------- */
 @Composable
-fun MainTitle(title: String){
-    Text(text= title, color = Color.White, fontWeight = FontWeight.Bold)
-
+fun MainTitle(title: String) {
+    Text(
+        text = title,
+        color = MaterialTheme.colorScheme.onPrimary,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(vertical = 8.dp)
+    )
 }
 
+/* ---------- Campo de texto ---------- */
 @Composable
-fun MainTextField(value: String,
-                  onValueChange: (String) -> Unit,
-                  label: String){
-
-    OutlinedTextField(value = value,
-        onValueChange =onValueChange,
-        label = { Text(text = label) },
+fun MainTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = {
+            Text(
+                text = label,
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 14.sp
+            )
+        },
+        textStyle = MaterialTheme.typography.bodyLarge.copy(
+            color = MaterialTheme.colorScheme.onBackground
+        ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 30.dp)
-            .padding(bottom = 15.dp)
-        )
+            .padding(horizontal = 30.dp, vertical = 6.dp)
+    )
 }
 
+/* ---------- Tarjeta de Cronómetro ---------- */
 @Composable
-fun CronCard(title: String,
-             crono:String,
-             onClick: () -> Unit ) {
+fun CronCard(
+    title: String,
+    crono: String,
+    onClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp)
-            .clickable {  //The card can used using a click on
-                onClick()
-            }
+            .padding(horizontal = 10.dp, vertical = 6.dp)
+            .clickable { onClick() }
     ) {
         Column(
             modifier = Modifier.padding(15.dp)
         ) {
-            Text(text = title,
+            Text(
+                text = title,
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-                )
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
             Row {
-                Icon(painter = painterResource(id = R.drawable.icon_timer_24),
+                Icon(
+                    painter = painterResource(id = R.drawable.fps),
                     contentDescription = "",
-                    tint = Color.Gray
+                    tint = MaterialTheme.colorScheme.secondary
                 )
-                Text(text = crono, fontSize = 20.sp)
+                Text(
+                    text = crono,
+                    fontSize = 20.sp,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.padding(start = 4.dp)
+                )
             }
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(1.dp),
+                    .height(1.dp)
+                    .padding(top = 6.dp),
                 color = MaterialTheme.colorScheme.primary
-
             )
-
         }
-
-
     }
 }
 
-
-/** Add into this section String Format Time   **/
-
-
-
-
-
-
-@Preview(showBackground = true, backgroundColor = 2345 )
+/* ===========================
+   Previews
+   =========================== */
+@Preview(showBackground = true, backgroundColor = 0xFF001F3F)
 @Composable
-fun MainTitlePreview(){
+fun MainTitlePreview() {
     MainTitle(title = "CronoApp")
 }
 
-
-
-    @Preview(showBackground = true)
-    @Composable
-    fun MainTextfieldPreview(){
-
-        MainTextField(value = "00:05:00", onValueChange ={} , label = "Score" )
-
-    }
-
+@Preview(showBackground = true)
+@Composable
+fun MainTextFieldPreview() {
+    MainTextField(value = "00:05:00", onValueChange = {}, label = "Score")
+}
 
 @Preview(showBackground = true)
 @Composable
-fun CronCardPreview(){
-    CronCard(title = "Cronos", crono = "01:24:00") {
-        
-    }
+fun CronCardPreview() {
+    CronCard(title = "Entrenamiento", crono = "01:24:00") {}
 }
