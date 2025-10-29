@@ -35,6 +35,7 @@ import me.saket.swipe.SwipeableActionsBox
 fun HomeView(navController: NavController, dataVM: AppDataViewModel) {
     Scaffold(
         topBar = {
+
             CenterAlignedTopAppBar(
                 title = { MainTitle(title = stringResource(id = R.string.app_name)) },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -104,8 +105,7 @@ fun ContentHomeView(
         item {
             Text(
                 text = "Recomendados para ti",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )

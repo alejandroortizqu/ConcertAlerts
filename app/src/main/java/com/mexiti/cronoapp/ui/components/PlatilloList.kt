@@ -51,19 +51,18 @@ fun PlatilloItem(platillo: Platillo, modifier: Modifier = Modifier) {
                 Text(
                     text = stringResource(platillo.stringResourceId),
                     color = MaterialTheme.colorScheme.onPrimary,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.displayLarge
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "Ubicación: ${platillo.ubicacion}",
                     color = MaterialTheme.colorScheme.onPrimary,
-                    fontSize = 14.sp
+                    style = MaterialTheme.typography.displayMedium
                 )
                 Text(
                     text = "Fecha: ${platillo.fecha}",
                     color = MaterialTheme.colorScheme.onPrimary,
-                    fontSize = 14.sp
+                    style = MaterialTheme.typography.labelSmall
                 )
             }
         }
@@ -75,7 +74,7 @@ fun PlatilloList(platillos: List<Platillo>, modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFF2B09EB)) // Fondo azul oscuro de la app
+            .background(Color(0xFF2B09EB))
             .padding(top = 8.dp, bottom = 8.dp)
     ) {
         items(platillos) { PlatilloItem(it) }
