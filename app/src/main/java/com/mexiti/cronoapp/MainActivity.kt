@@ -16,6 +16,8 @@ class MainActivity : ComponentActivity() {
         // mantenemos el ViewModel necesario
         val dataVM: AppDataViewModel by viewModels()
 
+        //Esta es una prueba
+
         setContent {
             AppTheme {
 
