@@ -11,7 +11,7 @@ import com.mexiti.cronoapp.viewmodel.CronometroViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
+/*@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +20,27 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 NavManager(cronometroVM, dataVM)
+            }
+        }
+    }
+}*/
+
+
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // ❌ Eliminamos la declaración del ViewModel que ya no usamos
+        // val cronometroVM:CronometroViewModel by viewModels()
+
+        // ✅ Solo mantenemos el ViewModel necesario
+        val dataVM: AppDataViewModel by viewModels()
+
+        setContent {
+            AppTheme {
+                // ❌ Eliminamos el argumento 'cronometroVM' de la llamada
+                NavManager(dataVM) // 👈 ¡CORRECCIÓN AQUÍ!
             }
         }
     }

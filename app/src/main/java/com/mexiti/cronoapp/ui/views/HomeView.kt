@@ -52,7 +52,8 @@ fun HomeView(navController: NavController, dataVM: AppDataViewModel) {
                     navController.navigate("ProfileView")
                 }
                 FloatButton {
-                    navController.navigate("AddView")
+                    // 🟢 CORRECCIÓN CLAVE: Navegar a la nueva ruta
+                    navController.navigate("CalculatorView")
                 }
             }
         },
@@ -68,37 +69,24 @@ fun ContentHomeView(
     navController: NavController,
     dataVM: AppDataViewModel
 ) {
-    val dataList by dataVM.cronoList.collectAsState()
-    val platillos = DataSource().loadPlatillos()
+    // ❌ ELIMINAR O COMENTAR: Ya no usamos la lista de cronómetros
+    // val dataList by dataVM.cronoList.collectAsState()
+
+    val platillos = DataSource().loadPlatillos() // Esto se mantiene
 
     LazyColumn(
         modifier = Modifier
             .padding(paddingValues)
             .padding(horizontal = 12.dp)
     ) {
-        // ========= Sección de Cronómetros =========
-        items(dataList) { item ->
-            val delete = SwipeAction(
-                icon = rememberVectorPainter(image = Icons.Default.Delete),
-                background = MaterialTheme.colorScheme.error,
-                onSwipe = { dataVM.deleteCrono(item) }
-            )
+        // ❌ ELIMINAR: TODA LA SECCIÓN DE CRONÓMETROS (LÍNEAS 81 a 104 en tu código)
 
-            SwipeableActionsBox(
-                startActions = listOf(delete),
-                swipeThreshold = 150.dp
-            ) {
-                CronCard(
-                    title = item.title,
-                    crono = formatTiempo(time = item.crono)
-                ) {
-                    navController.navigate("EditView/${item.id}")
-                }
-            }
-        }
-
-        // Espacio entre secciones
+        /*
+        // Sección de Cronómetros (ELIMINADA)
+        items(dataList) { item -> ... }
+        // Espacio entre secciones (ELIMINADO)
         item { Spacer(modifier = Modifier.height(32.dp)) }
+        */
 
         // ========= Encabezado de la sección de recomendados =========
         item {

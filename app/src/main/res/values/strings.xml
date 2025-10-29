@@ -8,4 +8,13 @@
     <string name="postre">GUNS N´ ROSES </string>
     <string name="pozole">EDC </string>
     <string name="tacos">NSQk </string>
+
+    <string name="calculadora">CalculadoraConcierto</string>
+    <string name="calcular_monto_concierto">🛒 Calculadora de Compras</string>
+    <string name="nombre_producto">Nombre del Producto</string>
+    <string name="precio_producto">Precio (€ / $)</string>
+    <string name="monto_total">Monto Total: %s</string>
+    <string name="agregar">Agregar</string>
+    <string name="eliminar">Eliminar</string>
+
 </resources>
