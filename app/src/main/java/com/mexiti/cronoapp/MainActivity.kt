@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.mexiti.cronoapp.navigation.NavManager
 import com.mexiti.cronoapp.ui.theme.AppTheme
-import com.mexiti.cronoapp.viewmodel.AppDataViewModel
+import com.mexiti.cronoapp.viewmodel.ConcertViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // mantenemos el ViewModel necesario
-        val dataVM: AppDataViewModel by viewModels()
+        val dataVM: ConcertViewModel by viewModels()
 
         //Esta es una prueba
 

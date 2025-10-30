@@ -2,8 +2,8 @@ package com.mexiti.cronoapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.mexiti.cronoapp.room.CronosDataBase
-import com.mexiti.cronoapp.room.CronosDatabaseDao
+import com.mexiti.cronoapp.repository.ProfileRepository
+import com.mexiti.cronoapp.room.AppDatabase
 import com.mexiti.cronoapp.room.ProfileDao
 import dagger.Module
 import dagger.Provides
@@ -14,29 +14,27 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule{
-    @Singleton
-    @Provides
-    fun providesCronosDao(cronoDataBase: CronosDataBase):CronosDatabaseDao{
-        return cronoDataBase.cronosDao()
-    }
+object AppModule {
 
     @Singleton
     @Provides
-    fun providesCronosDatabase(@ApplicationContext context: Context):CronosDataBase{
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(
-            context= context,
-            CronosDataBase::class.java,
-            name = "cronos_db"
+            context = context,
+            AppDatabase::class.java,
+            name = "app_db"
         ).fallbackToDestructiveMigration()
             .build()
     }
 
-    @Provides
     @Singleton
-    fun providesProfileDao(db: CronosDataBase): ProfileDao = db.profileDao()
+    @Provides
+    fun provideProfileDao(db: AppDatabase): ProfileDao = db.profileDao()
+
+    @Singleton
+    @Provides
+    fun provideProfileRepository(profileDao: ProfileDao): ProfileRepository {
+        return ProfileRepository(profileDao)
+    }
 
 }
-
-
-

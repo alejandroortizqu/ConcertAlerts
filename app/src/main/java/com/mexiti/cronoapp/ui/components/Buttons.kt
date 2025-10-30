@@ -42,7 +42,7 @@ fun FloatButton(onClick: () -> Unit) {
 }
 
 @Composable
-fun FloatButtonMinus(onClick: () -> Unit) {
+fun AccountFloatButton(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick,
         containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -51,7 +51,7 @@ fun FloatButtonMinus(onClick: () -> Unit) {
     ) {
         Icon(
             painter = painterResource(id = R.drawable.account),
-            contentDescription = "Agregar"
+            contentDescription = "Account"
         )
     }
 }
@@ -96,4 +96,3 @@ fun CircleButton(
         )
     }
 }
-
