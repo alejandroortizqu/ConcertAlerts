@@ -115,8 +115,9 @@ fun ContentCalculatorView(modifier: Modifier, navController: NavController, calc
             }
         }
 
+        val totalFormteado = String.format("Total: $%.2f", total)
         Text(
-            text = "Total: $$total",
+            text = totalFormteado,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 16.dp)
