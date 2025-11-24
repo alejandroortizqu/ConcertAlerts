@@ -1,5 +1,6 @@
 package com.mexiti.cronoapp
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,6 +17,7 @@ class MainActivity : ComponentActivity() {
         // mantenemos el ViewModel necesario
         val dataVM: AppDataViewModel by viewModels()
 
+        //val conciertoVM: AppDataViewModel by viewModels()
         //Esta es una prueba
 
         //Esta es una prueba

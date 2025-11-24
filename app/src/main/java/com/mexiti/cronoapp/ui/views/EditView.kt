@@ -78,9 +78,9 @@ fun ContentEditView(
 ) {
     val state = cronometroVM.state
 
-    LaunchedEffect(id) {
+    /*LaunchedEffect(id) {
         cronometroVM.getCronoById(id)
-    }
+    }*/
 
     Column(
         modifier = Modifier
@@ -131,7 +131,7 @@ fun ContentEditView(
         Spacer(modifier = Modifier.height(24.dp))
 
         // Botón de guardar cambios
-        Button(
+        /*Button(
             onClick = {
                 if (state.title.isNotBlank()) {
                     dataVM.updateCrono(
@@ -156,7 +156,7 @@ fun ContentEditView(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold
             )
-        }
+        }*/
 
         DisposableEffect(Unit) {
             onDispose {

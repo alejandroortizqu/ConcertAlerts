@@ -2,8 +2,9 @@ package com.mexiti.cronoapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.mexiti.cronoapp.room.CronosDataBase
-import com.mexiti.cronoapp.room.CronosDatabaseDao
+import com.mexiti.cronoapp.repository.ConciertoRepository
+import com.mexiti.cronoapp.room.ConciertoDataBase
+import com.mexiti.cronoapp.room.ConciertoDatabaseDao
 import com.mexiti.cronoapp.room.ProfileDao
 import dagger.Module
 import dagger.Provides
@@ -15,26 +16,44 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule{
-    @Singleton
+    /*@Singleton
     @Provides
-    fun providesCronosDao(cronoDataBase: CronosDataBase):CronosDatabaseDao{
-        return cronoDataBase.cronosDao()
+    fun providesCronosDao(cronoDataBase: ConciertoDataBase):ConciertoDatabaseDao{
+        return database.conciertoD
     }
 
     @Singleton
     @Provides
-    fun providesCronosDatabase(@ApplicationContext context: Context):CronosDataBase{
+    fun providesCronosDatabase(@ApplicationContext context: Context):ConciertoDataBase{
         return Room.databaseBuilder(
             context= context,
-            CronosDataBase::class.java,
+            ConciertoDataBase::class.java,
             name = "cronos_db"
         ).fallbackToDestructiveMigration()
             .build()
+    }*/
+
+    @Singleton
+    @Provides
+    fun provideDatabase(@ApplicationContext context: Context): ConciertoDataBase {
+        return ConciertoDataBase.getDatabase(context)
+    }
+
+    // 2. Proporciona el DAO
+    @Provides
+    fun provideConciertoDao(database: ConciertoDataBase): ConciertoDatabaseDao {
+        return database.conciertoDao()
+    }
+
+    // 3. Proporciona el Repositorio
+    @Provides
+    fun provideConciertoRepository(conciertoDao: ConciertoDatabaseDao, profileDao: ProfileDao): ConciertoRepository {
+        return ConciertoRepository(conciertoDao, profileDao)
     }
 
     @Provides
     @Singleton
-    fun providesProfileDao(db: CronosDataBase): ProfileDao = db.profileDao()
+    fun providesProfileDao(db: ConciertoDataBase): ProfileDao = db.profileDao()
 
 }
 

@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mexiti.cronoapp.repository.CronosRepository
+import com.mexiti.cronoapp.repository.ConciertoRepository
 import com.mexiti.cronoapp.state.CronoState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CronometroViewModel @Inject constructor(
-    private val repository: CronosRepository) :ViewModel()  {
+    private val repository: ConciertoRepository) :ViewModel()  {
 
         var state by mutableStateOf(CronoState())
             private set
@@ -26,7 +26,7 @@ class CronometroViewModel @Inject constructor(
         var time by mutableStateOf(0L)
             private set
 
-    fun getCronoById(id:Long){
+    /*fun getCronoById(id:Long){
         viewModelScope.launch(Dispatchers.IO) {
             repository.getCronByID(id).collect{
              item ->
@@ -39,7 +39,7 @@ class CronometroViewModel @Inject constructor(
 
             }
         }
-    }
+    }*/
 
     fun onValue(value:String){
         state = state.copy(title = value)
