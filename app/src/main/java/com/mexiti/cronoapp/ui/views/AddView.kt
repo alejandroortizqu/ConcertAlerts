@@ -454,7 +454,7 @@ import org.jetbrains.annotations.VisibleForTesting
 @Composable
 fun CalculatorView(
     navController: NavController,
-    dataVM: AppDataViewModel, // 🟢 TIPO CORREGIDO
+    dataVM: AppDataViewModel,
 ) {
     Scaffold(
         topBar = {
@@ -487,13 +487,12 @@ fun CalculatorView(
 fun CalculatorLayout(dataVM: AppDataViewModel) { // 👈 Recibe el VM de ROOM
 
     // 🟢 CARGAR DATOS DE ROOM: Usa el Flow del ViewModel de Concierto
-    // Asumo que tu ConciertoViewModel tiene una propiedad llamada itemsList
     val listaProductos by dataVM.itemList.collectAsState(initial = emptyList())
 
     var nuevoNombre by remember { mutableStateOf("") }
     var nuevoPrecio by remember { mutableStateOf("") }
 
-    // 🔹 Cálculo del total (usa la lista cargada de ROOM)
+    //  Cálculo del total (lista cargada de ROOM)
     val total = calcularMontoTotal(listaProductos)
 
     Column(
@@ -516,7 +515,7 @@ fun CalculatorLayout(dataVM: AppDataViewModel) { // 👈 Recibe el VM de ROOM
         Divider(modifier = Modifier.padding(vertical = 8.dp))
 
         // ----------------------------------------------------
-        // 1. Sección para agregar nuevos productos (CORREGIDA LA DUPLICACIÓN)
+        // 1. Sección para agregar nuevos productos
         // ----------------------------------------------------
         Row(
             modifier = Modifier
@@ -578,12 +577,12 @@ fun CalculatorLayout(dataVM: AppDataViewModel) { // 👈 Recibe el VM de ROOM
         LazyColumn(
             modifier = Modifier.weight(1f) // Esto permite que el LazyColumn ocupe el espacio restante
         ) {
-            // 🟢 Bucle que define 'item' y usa la lista de ROOM
+            // Bucle que define 'item' y usa la lista de ROOM
             items(listaProductos, key = { it.id }) { item ->
                 ProductItemCard(
                     item = item,
                     onDelete = { itemToDelete ->
-                        // 🟢 USAR ROOM: Llamada a la función de delete del ViewModel
+                        // Llamada a la función de delete del ViewModel
                         dataVM.deleteItem(itemToDelete)
                     }
                 )
@@ -641,7 +640,7 @@ fun ProductItemCard(item: ConciertoItem, onDelete: (ConciertoItem) -> Unit) {
 }
 
 
-// Función de Lógica de Cálculo (Debe estar fuera de cualquier Composable)
+//Prueba unitaria
 internal fun calcularMontoTotal(items: List<ConciertoItem>): Double {
     // Suma todos los precios de la lista
     return items.sumOf { it.precio }

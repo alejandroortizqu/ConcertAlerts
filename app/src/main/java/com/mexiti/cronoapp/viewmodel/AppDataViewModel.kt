@@ -3,7 +3,6 @@ package com.mexiti.cronoapp.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mexiti.cronoapp.model.ConciertoItem
-import com.mexiti.cronoapp.model.Cronos
 import com.mexiti.cronoapp.repository.ConciertoRepository
 import com.mexiti.cronoapp.room.ProfileEntity
 import dagger.hilt.android.lifecycle.HiltViewModel

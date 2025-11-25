@@ -15,8 +15,6 @@ interface ConciertoDatabaseDao {
     //Crud
     @Query("SELECT * FROM items_concierto")
     fun getItems(): Flow<List<ConciertoItem>>
-    /*@Query("SELECT * FROM cronos Where id=:id")
-    fun getCronosById(id:Long): Flow<Cronos>*/
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: ConciertoItem)
