@@ -15,22 +15,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule{
-    /*@Singleton
-    @Provides
-    fun providesCronosDao(cronoDataBase: ConciertoDataBase):ConciertoDatabaseDao{
-        return database.conciertoD
-    }
-
-    @Singleton
-    @Provides
-    fun providesCronosDatabase(@ApplicationContext context: Context):ConciertoDataBase{
-        return Room.databaseBuilder(
-            context= context,
-            ConciertoDataBase::class.java,
-            name = "cronos_db"
-        ).fallbackToDestructiveMigration()
-            .build()
-    }*/
 
     @Singleton
     @Provides

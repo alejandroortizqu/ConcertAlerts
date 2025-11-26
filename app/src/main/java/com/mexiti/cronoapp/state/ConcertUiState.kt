@@ -1,4 +1,3 @@
-
 package com.mexiti.cronoapp.state
 
 import com.mexiti.cronoapp.model.Concert

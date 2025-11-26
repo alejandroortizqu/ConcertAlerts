@@ -1,5 +1,3 @@
-// ui/views/HomeView.kt
-
 package com.mexiti.cronoapp.ui.views
 
 import androidx.compose.foundation.layout.Box
@@ -30,7 +28,7 @@ import com.mexiti.cronoapp.viewmodel.ConcertViewModel
 @Composable
 fun HomeView(
     navController: NavController,
-    dataVM: ConcertViewModel // ✅ Recibe ConcertViewModel con el nombre dataVM
+    dataVM: ConcertViewModel // Recibe ConcertViewModel con el nombre dataVM
 ) {
     Scaffold(
         topBar = {

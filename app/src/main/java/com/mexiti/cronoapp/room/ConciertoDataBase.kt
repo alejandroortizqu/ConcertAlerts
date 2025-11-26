@@ -13,7 +13,7 @@ import com.mexiti.cronoapp.model.ConciertoItem
 abstract class ConciertoDataBase : RoomDatabase() {
 
     abstract fun conciertoDao(): ConciertoDatabaseDao
-    abstract fun profileDao(): ProfileDao // Esta función debe ir aquí
+    abstract fun profileDao(): ProfileDao
 
     companion object{
         @Volatile
@@ -26,7 +26,7 @@ abstract class ConciertoDataBase : RoomDatabase() {
                     ConciertoDataBase::class.java,
                     "concierto_db"
                 )
-                    // 🟢 AÑADIR ESTO: Necesario para reconstruir la DB con la nueva tabla
+
                     .fallbackToDestructiveMigration()
                     .build().also { Instance = it }
             }
