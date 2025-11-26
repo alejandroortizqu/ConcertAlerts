@@ -1,6 +1,6 @@
 package com.mexiti.cronoapp.viewmodel
 
-import com.mexiti.cronoapp.model.Gasto
+import com.mexiti.cronoapp.model.ConciertoItem
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -30,7 +30,7 @@ class CalculatorViewModelTest {
 
         // Assert (Verificar)
         val state = viewModel.uiState.value
-        val expectedProduct = Gasto(id = 1, nombre = "Refresco", precio = 100.0)
+        val expectedProduct = ConciertoItem(id = 1, nombre = "Refresco", precio = 100.0)
 
         assertEquals(1, state.productList.size) // Verifica que la lista tiene 1 producto
         assertEquals(expectedProduct, state.productList.first()) // Verifica que es el producto correcto
@@ -89,7 +89,7 @@ class CalculatorViewModelTest {
 
         // Assert (Verificar)
         val state = viewModel.uiState.value
-        val expectedProduct = Gasto(id = 2, nombre = "Cerveza", precio = 200.0)
+        val expectedProduct = ConciertoItem(id = 2, nombre = "Cerveza", precio = 200.0)
 
         assertEquals(1, state.productList.size) // La lista ahora debe tener 1
         assertEquals(expectedProduct, state.productList.first()) // El producto restante debe ser "Cerveza"

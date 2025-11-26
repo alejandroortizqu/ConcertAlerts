@@ -1,3 +1,5 @@
+// ui/views/HomeView.kt
+
 package com.mexiti.cronoapp.ui.views
 
 import androidx.compose.foundation.layout.Box
@@ -16,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.mexiti.cronoapp.ui.components.AccountFloatButton
 import com.mexiti.cronoapp.ui.components.ConcertList
@@ -29,7 +30,7 @@ import com.mexiti.cronoapp.viewmodel.ConcertViewModel
 @Composable
 fun HomeView(
     navController: NavController,
-    dataVM: ConcertViewModel = viewModel()
+    dataVM: ConcertViewModel // ✅ Recibe ConcertViewModel con el nombre dataVM
 ) {
     Scaffold(
         topBar = {
@@ -50,10 +51,9 @@ fun HomeView(
             }
         }
     ) { innerPadding ->
-        // Collect the entire UI state object
+        // Usa dataVM internamente para obtener el estado de conciertos
         val uiState by dataVM.uiState.collectAsState()
 
-        // Use a when expression to display the correct UI for each state
         Box(
             modifier = Modifier
                 .padding(innerPadding)
@@ -64,12 +64,10 @@ fun HomeView(
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
                 is ConcertUiState.Success -> {
-                    // Cast the state and pass the concert list to the composable
                     val concerts = (uiState as ConcertUiState.Success).concerts
                     ConcertList(concerts)
                 }
                 is ConcertUiState.Error -> {
-                    // Show an error message
                     val message = (uiState as ConcertUiState.Error).message
                     Text(
                         text = "Error: $message",

@@ -3,7 +3,7 @@ package com.mexiti.cronoapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mexiti.cronoapp.repository.ProfileRepository
+import com.mexiti.cronoapp.repository.ConciertoRepository
 import com.mexiti.cronoapp.room.ProfileEntity
 import com.mexiti.cronoapp.state.ProfileUiState // Import the new state file
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val repository: ProfileRepository
+    private val repository: ConciertoRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ProfileUiState>(ProfileUiState.Loading)

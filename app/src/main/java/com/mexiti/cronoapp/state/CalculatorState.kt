@@ -1,9 +1,9 @@
 package com.mexiti.cronoapp.state
 
-import com.mexiti.cronoapp.model.Gasto
+import com.mexiti.cronoapp.model.ConciertoItem
 
 data class CalculatorState(
-    val productList: List<Gasto> = emptyList(),
+    val productList: List<ConciertoItem> = emptyList(),
     val newProductName: String = "",
     val newProductPrice: String = "",
     val errorMessage: String? = null

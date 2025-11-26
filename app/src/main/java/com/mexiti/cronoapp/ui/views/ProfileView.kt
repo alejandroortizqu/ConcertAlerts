@@ -1,5 +1,203 @@
+// ui/views/ProfileView.kt (Código Completo y Corregido)
 
 package com.mexiti.cronoapp.ui.views
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.mexiti.cronoapp.room.ProfileEntity
+import com.mexiti.cronoapp.state.ProfileUiState // Asumo que usas un ProfileUiState
+import com.mexiti.cronoapp.ui.components.MainIconButton
+import com.mexiti.cronoapp.viewmodel.ConcertViewModel
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProfileView(
+    dataVM: ConcertViewModel,
+    onBack: () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text("Perfil de Usuario", fontWeight = FontWeight.Bold) },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+                navigationIcon = {
+                    MainIconButton(icon = Icons.Default.ArrowBack) { onBack() }
+                }
+            )
+        }
+    ) { pad ->
+        // 🟢 Observa la entidad de perfil
+        val profileEntity by dataVM.profile.collectAsState()
+
+        Box(
+            modifier = Modifier.padding(pad).fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            // Llama al formulario, pasando la entidad y el ViewModel
+            ProfileForm(profile = profileEntity, profileVM = dataVM)
+        }
+    }
+}
+
+// ==========================================================
+// 🟢 CORRECCIÓN: Contenido completo de ProfileForm (Inputs restaurados)
+// ==========================================================
+@Composable
+fun ProfileForm(profile: ProfileEntity, profileVM: ConcertViewModel) {
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 24.dp, vertical = 32.dp)
+            .fillMaxSize(), // Usar fillMaxSize() para asegurar que la columna no se colapse
+        verticalArrangement = Arrangement.spacedBy(18.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Actualiza tus datos personales",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.primary
+        )
+
+        // 🟢 RESTAURACIÓN DE INPUTS (La lógica de actualización llama a onProfileChange del VM)
+        OutlinedTextField(
+            value = profile.nombre,
+            onValueChange = { profileVM.onProfileChange(nombre = it) },
+            label = { Text("Nombre") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = profile.ciudad,
+            onValueChange = { profileVM.onProfileChange(ciudad = it) },
+            label = { Text("Ciudad") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = profile.sexo,
+            onValueChange = { profileVM.onProfileChange(sexo = it) },
+            label = { Text("Sexo") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = profile.gustos,
+            onValueChange = { profileVM.onProfileChange(gustos = it) },
+            label = { Text("Gustos musicales") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // Botón de Guardar
+        Button(
+            onClick = {
+                profileVM.saveProfile(
+                    nombre = profile.nombre,
+                    ciudad = profile.ciudad,
+                    sexo = profile.sexo,
+                    gustos = profile.gustos
+                )
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ),
+            shape = MaterialTheme.shapes.medium,
+            modifier = Modifier
+                .padding(top = 12.dp)
+                .fillMaxWidth()
+        ) {
+            Text(text = "Guardar Cambios", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+        }
+    }
+}
+
+/*package com.mexiti.cronoapp.ui.views
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.mexiti.cronoapp.room.ProfileEntity
+import com.mexiti.cronoapp.state.ProfileUiState
+import com.mexiti.cronoapp.ui.components.MainIconButton
+import com.mexiti.cronoapp.viewmodel.ConcertViewModel // Usamos ConcertViewModel
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProfileView(
+    // 🟢 Firma corregida para recibir dataVM: ConcertViewModel
+    dataVM: ConcertViewModel,
+    onBack: () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text("Perfil de Usuario", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onPrimary) },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+                navigationIcon = {
+                    MainIconButton(icon = Icons.Default.ArrowBack) { onBack() }
+                }
+            )
+        }
+    ) { pad ->
+        val uiState by dataVM.profile.collectAsState() // Usamos dataVM.profile
+        // ... (resto del código de Box y when(uiState)) ...
+
+        Box(
+            modifier = Modifier.padding(pad).fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            when (val state = uiState) {
+                is ProfileUiState.Loading -> { CircularProgressIndicator() }
+                is ProfileUiState.Success -> {
+                    // Pasamos dataVM a la función del formulario
+                    ProfileForm(state.profile, dataVM)
+                }
+                is ProfileUiState.Error -> {
+                    val message = (uiState as ProfileUiState.Error).message
+                    Text(text = "Error: $message")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ProfileForm(profile: ProfileEntity, profileVM: ConcertViewModel) { // 👈 Firma Formulario
+    // ...
+    // ... (Todos los OutlinedTextFields llaman a profileVM.onProfileChange) ...
+
+    Button(
+        onClick = {
+            // Llama a la función saveProfile del VM de Concerts
+            profileVM.saveProfile(
+                nombre = profile.nombre,
+                ciudad = profile.ciudad,
+                sexo = profile.sexo,
+                gustos = profile.gustos
+            )
+        },
+        // ...
+    ) {
+        Text(text = "Guardar Cambios", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+    }
+}
+
+
+*/
+
+/*package com.mexiti.cronoapp.ui.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -134,3 +332,4 @@ fun ProfileForm(profile: ProfileEntity, profileVM: ProfileViewModel) {
         }
     }
 }
+*/
