@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mexiti.cronoapp.model.ConciertoItem
 import com.mexiti.cronoapp.repository.ConciertoRepository
-import com.mexiti.cronoapp.state.CalculatorState // 🟢 IMPORTACIÓN CLAVE: Usa tu clase externa
+import com.mexiti.cronoapp.state.CalculatorState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,8 +15,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// ❌ ELIMINADA: La definición local de CalculatorState
-// ❌ ELIMINADA: La definición local de CalculatorState
+
 
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
